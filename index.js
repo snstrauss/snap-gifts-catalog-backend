@@ -18,7 +18,7 @@ app.get('/products', (req, res) => {
 
 });
 
-app.get('/promotions', (res, res) => {
+app.get('/promotions', (req, res) => {
 
 
     debugger;
