@@ -1,5 +1,5 @@
 const express = require('express');
-const PORT = 3333;
+const PORT = 5000;
 
 const DATA = require('./data.json');
 
@@ -33,6 +33,6 @@ app.get('/vendors', (req, res) => {
     res.json(DATA.vendors);
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log('backend now running on port ' + PORT);
 });
