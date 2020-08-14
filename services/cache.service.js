@@ -1,4 +1,6 @@
-
+/**
+ * cache service uses Promises to mock async behavior
+ */
 const CACHE = {};
 
 const CONSTS = {
@@ -8,7 +10,7 @@ const CONSTS = {
     DEFAULT: {
         CACHE_KEY: 'ALL'
     }
-}
+};
 
 function set(key, data, time){
 
@@ -20,7 +22,7 @@ function set(key, data, time){
         }, time);
     }
 
-    return CACHE[key];
+    return Promise.resolve(CACHE[key]);
 }
 
 function get(key){

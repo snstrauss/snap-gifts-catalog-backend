@@ -1,14 +1,28 @@
+const queryString = require('querystring');
+
 const cacheService = require('./cache.service');
 const { isMeaningfulQuery, getQueriedItems } = require('./data.service');
 
+const EXACT_PRODUCT_PROPS = ['vendor'];
+
 function getProducts(query){
 
-    const queryRgx = new RegExp(query.toLowerCase());
+    const queryItems = queryString.parse(query);
 
     let optionalFilter;
     if(isMeaningfulQuery(query)){
         optionalFilter = function(prod){
-            return queryRgx.test(prod.name.toLowerCase());
+            return Object.entries(queryItems).every(([prop, value]) => {
+                let rgxString = value.toLowerCase();
+
+                if(EXACT_PRODUCT_PROPS.includes(prop)){
+                    rgxString = `^${rgxString}$`;
+                }
+
+                const propRgx = new RegExp(rgxString);
+
+                return propRgx.test(prod[prop].toLowerCase());
+            });
         }
     }
 
@@ -18,18 +32,15 @@ function getProducts(query){
 function getProductsFromCache(query, cacheTimeout){
     return cacheService.get(query).catch((err) => {
         if(err === cacheService.CONSTS.ERRORS.NO_ITEM){
-            const timeToRemove = isMeaningfulQuery(query) && cacheTimeout;
-
-            cacheService.set(query, Promise.resolve(getProducts(query)), timeToRemove);
-
-            return getProductsFromCache(query);
+            return cacheService.set(query, getProducts(query), cacheTimeout).then((data) => {
+                return data;
+            });
         }
     });
 }
 
 function getPromotions(){
     const promotions = getQueriedItems('promotion');
-
     return Array.isArray(promotions) ? promotions : [promotions];
 }
 

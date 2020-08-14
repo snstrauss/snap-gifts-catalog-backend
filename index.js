@@ -1,7 +1,8 @@
 const express = require('express');
 
-const cacheService = require('./services/cache.service');
 const { getProductsFromCache, getPromotions, getVendors } = require('./services/product.service');
+
+const queryString = require('querystring');
 
 const PORT = 5000;
 const CACHE_TIMEOUT_MINS = 5;
@@ -16,10 +17,16 @@ app.use(function(req, res, next) {
 });
 
 app.get('/products', (req, res) => {
-    const query = req.query.query.length ? req.query.query : cacheService.CONSTS.DEFAULT.CACHE_KEY;
 
-    getProductsFromCache(query, CACHE_TIMEOUT).then(productsData => {
+    const query = queryString.stringify(req.query);
+
+    const cacheTimeout = query.length && CACHE_TIMEOUT;
+
+    getProductsFromCache(query, cacheTimeout).then(productsData => {
         res.json(productsData);
+    }).catch((err) => {
+        console.error('ERROR:')
+        console.error(err);
     });
 });
 

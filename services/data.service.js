@@ -1,9 +1,7 @@
 const DATA = require('../data/data.json');;
 
-const DEFAULT_CACHE_KEY = 'ALL';
-
 function isMeaningfulQuery(q){
-    return q !== DEFAULT_CACHE_KEY;
+    return !!q.length;
 }
 
 function getQueriedItems(field, filterCb){
