@@ -4,7 +4,7 @@
   "description": "mock backend for snap-gofts-catalog example",
   "main": "index.js",
   "scripts": {
-    "dev": "node --inspect-brk index.js",
+    "dev": "node --inspect index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

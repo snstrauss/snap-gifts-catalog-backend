@@ -12,7 +12,12 @@ const CONSTS = {
     }
 };
 
-function set(key, data, time){
+function normalizeKey(key){
+    return key.split('&').sort().join('&');
+}
+
+function set(rawKey, data, time){
+    const key = normalizeKey(rawKey)
 
     CACHE[key] = data;
 
@@ -25,8 +30,10 @@ function set(key, data, time){
     return Promise.resolve(CACHE[key]);
 }
 
-function get(key){
+function get(rawKey){
     return new Promise((resolve, reject) => {
+        const key = normalizeKey(rawKey);
+
         if(key in CACHE){
             resolve(CACHE[key]);
         } else {

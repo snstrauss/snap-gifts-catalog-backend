@@ -17,9 +17,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/products', (req, res) => {
-
     const query = queryString.stringify(req.query);
-
     const cacheTimeout = query.length && CACHE_TIMEOUT;
 
     getProductsFromCache(query, cacheTimeout).then(productsData => {
