@@ -16,26 +16,36 @@ function normalizeKey(key){
     return key.split('&').sort().join('&');
 }
 
+function setRemovalTimeout(cacheItem, key, time){
+    clearTimeout(cacheItem.removeRef);
+    cacheItem.removeRef = setTimeout(() => {
+        remove(key);
+    }, time);
+}
+
+function buildCacheItem(key, data, time){
+    const cacheItem = { data };
+
+    setRemovalTimeout(cacheItem, key, time);
+
+    return cacheItem;
+}
+
 function set(rawKey, data, time){
     const key = normalizeKey(rawKey)
 
-    CACHE[key] = data;
+    CACHE[key] = buildCacheItem(key, data, time);
 
-    if(time){
-        setTimeout(() => {
-            remove(key);
-        }, time);
-    }
-
-    return Promise.resolve(CACHE[key]);
+    return Promise.resolve(CACHE[key].data);
 }
 
-function get(rawKey){
+function get(rawKey, cacheTimeout){
     return new Promise((resolve, reject) => {
         const key = normalizeKey(rawKey);
 
         if(key in CACHE){
-            resolve(CACHE[key]);
+            setRemovalTimeout(CACHE[key], key, cacheTimeout);
+            resolve(CACHE[key].data);
         } else {
             reject(CONSTS.ERRORS.NO_ITEM);
         }

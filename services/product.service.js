@@ -30,7 +30,7 @@ function getProducts(query){
 }
 
 function getProductsFromCache(query, cacheTimeout){
-    return cacheService.get(query).catch((err) => {
+    return cacheService.get(query, cacheTimeout).catch((err) => {
         if(err === cacheService.CONSTS.ERRORS.NO_ITEM){
             return cacheService.set(query, getProducts(query), cacheTimeout).then((data) => {
                 return data;
