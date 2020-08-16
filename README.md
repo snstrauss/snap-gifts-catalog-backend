@@ -6,7 +6,8 @@ A simple backend for the snap-gifts-catalog example.
 
 clone this repo, and then -
 ```
-npm install
+$ npm install
+$ npm run dev
 ```
 Server will run on ```localhost:5000```.
 

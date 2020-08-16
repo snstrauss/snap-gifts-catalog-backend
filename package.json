@@ -4,7 +4,7 @@
   "description": "mock backend for snap-gofts-catalog example",
   "main": "index.js",
   "scripts": {
-    "dev": "node --inspect index.js",
+    "dev": "node index.js",
     "start": "node index.js",
     "test": "jest --verbose"
   },
