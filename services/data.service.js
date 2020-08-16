@@ -1,7 +1,7 @@
 const DATA = require('../data/data.json');;
 
 function isMeaningfulQuery(q){
-    return !!q.length;
+    return !!(q && q.length);
 }
 
 function getQueriedItems(field, filterCb){

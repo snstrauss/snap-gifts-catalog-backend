@@ -56,9 +56,15 @@ function remove(key){
     delete CACHE[key];
 }
 
+function clear(){
+    for(let key in CACHE){
+        remove(key);
+    }
+}
 
 module.exports = {
     set,
     get,
+    clear,
     CONSTS
 }

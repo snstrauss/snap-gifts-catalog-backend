@@ -3,6 +3,7 @@ const express = require('express');
 const { getProductsFromCache, getPromotions, getVendors } = require('./services/product.service');
 
 const queryString = require('querystring');
+const { clear } = require('./services/cache.service');
 
 const PORT = 5000;
 const CACHE_TIMEOUT_MINS = 5;
