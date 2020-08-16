@@ -12,6 +12,10 @@ $ npm run dev
 Server will run on ```localhost:5000```.
 
 ---
+## Run Tests
+```npm run test```
+
+---
 ## Usage - endpoints
 ### GET /products
 returns a list of all the products, filtered by the following parameters:
